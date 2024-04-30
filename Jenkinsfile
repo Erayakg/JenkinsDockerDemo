@@ -9,11 +9,20 @@ pipeline {
             }
         }
 
+       stage('Build JAR') {
+           steps {
+               // Maven kullanarak JAR dosyasını oluştur
+               sh 'mvn clean package'
+           }
+       }
+
+        }
+
         stage('Build Docker Image') {
             steps {
                 // Docker imajını oluştur
                 script {
-                    docker.build("demo-app:${env.BUILD_NUMBER}")
+                    docker.build("demo-app:${env.BUILD_NUMBER}", "-f Dockerfile .")
                 }
             }
         }
