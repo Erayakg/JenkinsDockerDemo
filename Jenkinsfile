@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // GitHub'dan projeyi al
-                git 'https://github.com/sezerdemir7/DemoProject.git'
+                git 'https://github.com/Erayakg/JenkinsDockerDemo.git'
             }
         }
 
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 // Docker imajını çalıştır
                 script {
-                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8080:8080 --name demo-container")
+                    def container = docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8080:8080 --name demo-container")
                 }
             }
         }
@@ -32,9 +32,12 @@ pipeline {
         always {
             // Docker konteynerini durdur ve temizle
             script {
-                docker.image("demo-app:${env.BUILD_NUMBER}").stop()
-                docker.image("demo-app:${env.BUILD_NUMBER}").remove()
+                def container = docker.container("demo-container")
+                if(container) {
+                    container.stop()
+                    container.remove(force: true)
+                }
             }
-}
-}
+        }
+    }
 }
