@@ -10,7 +10,7 @@ public class Controller {
 
     @GetMapping
     public String deneme(){
-        return "deneme";
+        return "deneme sezer";
     }
     @GetMapping
     public String deneme2(){
