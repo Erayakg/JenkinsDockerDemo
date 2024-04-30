@@ -8,15 +8,6 @@ pipeline {
                 git 'https://github.com/Erayakg/JenkinsDockerDemo.git'
             }
         }
-
-      stage('Build JAR') {
-          steps {
-              // Maven kullanarak JAR dosyasını oluştur
-              bat '"C:\\path\\to\\maven\\bin\\mvn" clean package'
-          }
-      }
-
-
         stage('Build Docker Image') {
             steps {
                 // Docker imajını oluştur
