@@ -4,14 +4,12 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // GitHub'dan projeyi al
                 git 'https://github.com/Erayakg/JenkinsDockerDemo'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                // Docker imajını oluştur
                 script {
                     docker.build("demo-app:${env.BUILD_NUMBER}")
                 }
@@ -20,9 +18,8 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                // Docker imajını çalıştır
                 script {
-                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8989:8989 --name demo-container")
+                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-d -p 8989:8989 --name demo-container")
                 }
             }
         }
@@ -30,12 +27,11 @@ pipeline {
 
     post {
         always {
-            // Docker konteynerini durdur ve temizle
             script {
                 try {
-                    bat 'docker stop demo-container'
-                    bat 'docker rm demo-container'
-                    bat "docker rmi demo-app:${env.BUILD_NUMBER}"
+                    docker.stop("demo-container")
+                    docker.removeContainer("demo-container")
+                    docker.image("demo-app:${env.BUILD_NUMBER}").remove()
                 } catch (Exception e) {
                     echo "Hata oluştu: ${e.message}"
                     currentBuild.result = 'FAILURE'
