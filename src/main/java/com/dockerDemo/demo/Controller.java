@@ -12,5 +12,10 @@ public class Controller {
     public String deneme(){
         return "deneme";
     }
+    @GetMapping
+    public String deneme2(){
+        return "deneme";
+    }
+
 
 }
