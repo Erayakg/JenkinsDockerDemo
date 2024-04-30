@@ -9,13 +9,11 @@ pipeline {
             }
         }
 
-       stage('Build JAR') {
-           steps {
-               // Maven kullanarak JAR dosyasını oluştur
-               sh 'mvn clean package'
-           }
-       }
-
+        stage('Build JAR') {
+            steps {
+                // Maven kullanarak JAR dosyasını oluştur
+                sh 'mvn clean package'
+            }
         }
 
         stage('Build Docker Image') {
