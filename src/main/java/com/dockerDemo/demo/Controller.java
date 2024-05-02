@@ -11,7 +11,7 @@ public class Controller {
 
     @GetMapping
     public String deneme2(){
-        return "PEKER1";
+        return "PEKER2";
     }
 
 
